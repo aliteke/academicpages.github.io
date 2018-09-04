@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Dr"
+title                    : "Ali Tekeoglu"
 title_separator          : "."
 name                     : &name "Ali Tekeoglu"
 description              : &description "Assistant Professor of Network Computer Security Department at SUNY Polytechnic Institute"
@@ -83,7 +83,7 @@ author:
   avatar           : "profile.png"
   bio              : "I'm an assistant professor in the Network Computer Security Department at State University of New York Polytechnic Institute. I do research on Internet of Things Security, Machine Learning for Cybersecurity and Blockchain Technologies."
   location         : "Utica, NY"
-  employer         : "State University of New York Polytechnic Institute"
+  employer         : "SUNY Polytechnic Institute"
   googlescholar    : "https://scholar.google.com/citations?user=cvO3GwoAAAAJ&hl=en"
   email            : "ali.tekeoglu@sunyit.edu"
   uri              :
