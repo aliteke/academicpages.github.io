@@ -11,11 +11,11 @@ Dr. Ali Tekeoglu received his BS degree in [Computer Engineering](http://w3.cs.b
 He earned Master's degree in [Computer Science](https://cs.utsa.edu/) from [University of Texas at San Antonio](http://www.utsa.edu/), in 2009. 
 Subsequently, in 2015 he earned PhD from the [UTSA](https://cs.utsa.edu/), and his dissertation thesis was "Security Analysis of Multimedia Communication Protocols in Traditional and Emerging Models".
 During his graduate studies he interned with [Intel](http://www.intel.com), [Hewleet-Packard](http://www.hp.com) and Space Exploration Technologies([SpaceX](http://www.spacex.com)). 
-Upon graduating from UTSA, he started to work for a cloud security start-up company [HyTrust](www.hytrust.com), in Silicon Valley area, as a Software Security Engineer.
+Upon graduating from UTSA, he started to work for a cloud security start-up company [HyTrust](http://www.hytrust.com), in Silicon Valley area, as a Software Security Engineer.
 He worked for [Rackspace](http://www.rackspace.com), as a Vulnerability Analyst and Penetration Test Engineer briefly, before joining [SUNY Polytechnic Institute](http://www.sunypoly.edu) in Fall 2016.
 Since 2016, he is teaching in [Network Computer Security](http://www.cs.sunyit.edu) Department at SUNY Poly. 
 He has been teaching Network Forensics, Internet of Things Security, Information Assurance Fundamentals, Penetration Testing, Introduction to Linux and Linux Networking courses.
-During summer of 2018, he was a visiting postdoctoral researcher at [University of Victoria](www.uvic.ca), in Victoria B.C. Canada.
+During summer of 2018, he was a visiting postdoctoral researcher at [University of Victoria](http://www.uvic.ca), in Victoria B.C. Canada.
 He worked in [Information Security and Object Technology Lab](https://www.uvic.ca/engineering/ece/isot/), with [Dr. Issa Traore](http://www.ece.uvic.ca/~itraore/), on Cloud Intrusion Detection technology project.
 His research interests include network security and multimedia security; specifically focusing on cloud based IoT devices and more recently on Security and Privacy of Blockchain technologies.
 He is co-chairing two upcoming conference workshops; 
