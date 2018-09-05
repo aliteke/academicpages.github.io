@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV"
+title: "CV ([pdf](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0))"
 permalink: /cv/
 author_profile: true
 redirect_from:
