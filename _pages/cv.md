@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "CV ([pdf](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0))"
+title: "CV"
 permalink: /cv/
 author_profile: true
 redirect_from:
@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 {% include base_path %}
-[pdf version](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0)
+[**__pdf__**](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0)
 
 Education
 ======
