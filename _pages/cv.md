@@ -8,7 +8,7 @@ redirect_from:
 ---
 
 {% include base_path %}
-[**__pdf__**](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0)
+[**_pdf_**](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0)
 
 Education
 ======
