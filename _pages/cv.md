@@ -8,6 +8,7 @@ redirect_from:
 ---
 
 {% include base_path %}
+[pdf version](https://www.dropbox.com/s/qxftf4utu3s76me/cv_ali_tekeoglu.pdf?dl=0)
 
 Education
 ======
