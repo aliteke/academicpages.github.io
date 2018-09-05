@@ -3,8 +3,8 @@ title: "Semi-Synchronocity Enabling Protocol and Pulsed Injection Protocol For A
 collection: publications
 permalink: /publication/2018-10-3PGCIC_paper2
 excerpt: 'Distributed ledger technologies'
-date: 2010-10-01
-venue: '2018 13-th International Conference on P2P, Parallel, Grid, Cloud and Internet Computing'
+date: 2018-10-26
+venue: '2018 13-th International Conference on P2P, Parallel, Grid, Cloud and Internet Computing, Taichung, Taiwan'
 paperurl: 
 citation: 'Bruno Andriamanalimanana, Chen-Fu Chiang, Jorge Novillo, Sam Sengupta, Ali Tekeoglu (2018). &quot;Semi-Synchronocity Enabling Protocol and Pulsed Injection Protocol For A Distributed Ledger System.&quot; <i>3PGCIC-2018</i>.'
 ---
