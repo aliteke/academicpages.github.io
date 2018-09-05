@@ -11,7 +11,7 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Computer Science, The University of Texas San Antonio, 2015
+* Ph.D. in Computer Science, The University of Texas San Antonio, 2015
 * M.S. in Computer Science, The University of Texas San Antonio, 2009
 * B.S. in Computer Engineering, Bilkent University, 2007
 
