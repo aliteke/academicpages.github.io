@@ -8,7 +8,7 @@ date: 2016-08-25
 location: "Utica, NY"
 ---
 
-NCS 490: Network Forensics
+Fall'16, NCS 490: Network Forensics
 ---
 In this course we learn to recognize hackers’ tracks and uncover network-based evidence.
 We investigate methods to carve suspicious email attachments from packet captures. 
