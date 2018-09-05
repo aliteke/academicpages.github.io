@@ -2,9 +2,9 @@
 title: "Parameterized Pulsed Transaction Injection Computation Model And Performance Optimizer For IOTA-Tango"
 collection: publications
 permalink: /publication/2018-10-3PGCIC-parametrized_pulsed_transaction_injection_computation_model_and_performance_optimer_for_iota_tango
-excerpt: 'This paper is about the number 3. The number 4 is left for future work.'
-date: 2018-10-01
-venue: 'The 13th International Conference on P2P, Parallel, Grid, Cloud and Internet Computing'
+excerpt: 'Distributed ledger technologies'
+date: 2018-10-27
+venue: ' 13th International Conference on P2P, Parallel, Grid, Cloud and Internet Computing, Taichung, Taiwan'
 paperurl: 'https://www.dropbox.com/s/hn3yj1tjmtyo629/1570462148.pdf?dl=0'
 citation: 'Bruno Andriamanalimanana, Chen-Fu Chiang, Jorge Novillo, Sam Sengupta, Ali Tekeoglu (2018). "Parameterized Pulsed Transaction Injection Computation Model And Performance Optimizer For IOTA-Tango" <i>The 13th International Conference on P2P, Parallel, Grid, Cloud and Internet Computing</i>'
 ---
