@@ -1,7 +1,7 @@
 ---
 title: "State University of New York Polytechnic Institute"
 collection: teaching
-type: "graduate course"
+type: "Graduate course (M.S.)"
 permalink: /teaching/2016-fall-NCS_590_IoTSecurity
 venue: "SUNY Poly, Network Computer Security Department"
 date: 2016-08-25
