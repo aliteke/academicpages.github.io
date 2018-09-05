@@ -8,8 +8,8 @@ date: 2016-08-25
 location: "Utica, NY"
 ---
 
-NCS 590: Internet of Things Security
-======
+Fall'16, NCS 590: Internet of Things Security
+---
 This was a Special Topic course, covers the emerging topic of Internet-of-Things (IoT) and it's (in)security. 
 In the first half of the semester, we cover the chapters from the required textbook such as: 
 IoT uses, IoT in the Enterprise, IoT Vulnerabilities, Attacks and Countermeasures, etc. 
