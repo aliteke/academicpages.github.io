@@ -19,12 +19,21 @@ Education
 
 Recent Work experience
 ======
+* Winter 2020 - present: Assistant Professor
+  * University of New Brunswick
+  * Computer Science Department & Canadian Institute for Cybersecurity
+
+* Summer 2019: Air Force Research Labs, Rome NY
+  * SFFP (Summer Faculty Fellowship Program)
+  * Research on Ligthweight Distributed Ledger Technologies for Internet of Things Devices
+  * Supervisor: Dr. Ahmed Norman
+
 * Summer 2018: Visiting Post-Doctoral Researcher
   * University of Victoria, B.C. Canada
   * Duties included: Cloud Intrusion Detection project, automated attack scripts in Python
   * Supervisor: Professor Issa Traore
 
-* Fall 2016 - present: Assistant Professor
+* Fall 2016 - Spring 2020: Assistant Professor
   * State University of New York Polytechnic Institute
   * Network Computer Security / Computer Science Department
    
