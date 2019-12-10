@@ -22,6 +22,9 @@
 	<script>
 		var text, parser, xmlDoc;
 		var mycontent;
+		var timestamps=[];
+		var temps=[];
+		var humids=[];
 
 		url = "https://viginiadot.s3-us-west-2.amazonaws.com/"
 		request = new XMLHttpRequest();
@@ -40,12 +43,28 @@
 		
 		var x= ""; 
 		for(i=0; i< mykeys.length; i++)
-		{ 
-			x += (url + mykeys[i].textContent) + "<br>" ; 
+		{
+			searchKey="2019-11-14"
+			if(mykeys[i].textContent.startsWith( searchKey)) {
+				if(mykeys[i].nextSibling.nextSibling.nextSibling.textContent != "0"){
+					x += (url + mykeys[i].textContent) + "<br>"; 
+					cur_json_url = url + mykeys[i].textContent;
+					console.log(cur_json_url);
+					request.open('GET', cur_json_url, false);
+					request.send();
+					console.log(request.responseText);
+					mycontent = JSON.parse(request.responseText);
+					timestamps.push(mycontent["timestamp"])
+					temps.push(mycontent["temperature"])
+					humids.push(mycontent["humidity"])
+				}
+			}
 		}
-		document.getElementById("demo").innerHTML=x
 		
-		<!-- "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays" -->
+		msg = "[+] Search Key (date starts with): " + searchKey + "<br>[+] total Temps: " + temps.length + ", total timestamps: " + timestamps.length + ", total humidities: " + humids.length
+		document.getElementById("demo").innerHTML= msg
+		
+<!-- "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays"
 		
 		request = new XMLHttpRequest();
 		url = "https://viginiadot.s3-us-west-2.amazonaws.com/2019-11-15_19-29-39"
@@ -59,10 +78,10 @@
 			}
 		}
 
-		request.open('GET',url, true);
+		request.open('GET', url, true);
 		request.send();
 		mycontent = request.responseText;
-		
+-->
 	</script>
 
 
@@ -74,19 +93,34 @@
 	   </div>
 
 	   <script type="text/javascript">
+		var temps2=[]
+		for(i=0; i<temps.length; i++){ 
+			o = new Object( { "x": i, "y": temps[i] } ); 
+			temps2.push(o);
+		}
+
 		var ctx = document.getElementById('myChart');
 		var myChart = new Chart(ctx, {
 			type: 'line',
 		    	data: {
-				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+				labels: timestamps,
         			datasets: [{
-            				label: 'Temperature and Humidity Sensor Values from R-Pi',
-            				data: [{x:0,y:3}, {x:1,y:12}, {x:2,y:3}, {x:3,y:5}, {x:4,y:2}, {x:5,y:3}],
+            				label: 'Temperature Sensor Values',
+            				data: temps2,
             				backgroundColor: 'rgb(54, 162, 235)',
             				borderColor: 'rgb(255, 99, 132)',
             				borderWidth: 1,
-					fill: true
-			        }]
+					fill: false
+			        	},
+				{
+					label: 'Humidity Sensor Values',
+					data: humids,
+                                        backgroundColor: 'rgb(201, 203, 207)',
+                                        borderColor: 'rgb(75, 192, 192)',
+                                        borderWidth: 1,
+                                        fill: false
+				}
+				]
     			},
 			options: {
 				responsive: true,
