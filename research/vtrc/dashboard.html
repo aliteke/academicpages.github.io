@@ -3,6 +3,7 @@
    <head>
       <meta charset="utf-8">
       <title>Testing AWS Bucket Data Plotting in Real Time</title>
+      <link rel='icon' href='https://sunypoly.edu/sites/default/files/favy_0.png' type='image/x-icon'/ >
       <meta name="description" content="IoT Data Plotting from S3 Buckets">
       <meta name="author" content="a.t.">
       <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,8 +11,8 @@
       <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
       <!--Scripts-->
       <script src="https://sdk.amazonaws.com/js/aws-sdk-2.2.19.min.js"></script>
-      <script src="js/raven-table-dashboard.js"></script>
-      <script src="js/Chart.js"></script>
+      <!--script src="js/raven-table-dashboard.js"></script-->
+      <!--script src="js/Chart.js"></script-->
       <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
    </head>
@@ -22,65 +23,102 @@
 		var text, parser, xmlDoc;
 		var mycontent;
 
-		<!---url = "https://viginiadot.s3-us-west-2.amazonaws.com/"--->
-		url = "http://localhost/xml/vdot.xml"
+		url = "https://viginiadot.s3-us-west-2.amazonaws.com/"
 		request = new XMLHttpRequest();
-		request.open('GET', url);
-		request.responseType = 'text/xml'
+		request.open('GET', url, false);
+		request.responseType = 'text/xml';
 		
 		request.send();
-		mycontent = request.response;
+		mycontent = request.responseText;
 
 		parser = new DOMParser();
 		xmlDoc = parser.parseFromString(mycontent,"text/xml");
 
 		mykeys = xmlDoc.getElementsByTagName("Key")
-		document.getElementById("demo").innerHTML = mykeys
-		for(i=0; i< mykeys.length; i++){console.log(mykeys[i].textContent) }
+		
+		console.log("Length of keys: " + mykeys.length)
+		
+		var x= ""; 
+		for(i=0; i< mykeys.length; i++)
+		{ 
+			x += (url + mykeys[i].textContent) + "<br>" ; 
+		}
+		document.getElementById("demo").innerHTML=x
+		
+		<!-- "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays" -->
+		
+		request = new XMLHttpRequest();
+		url = "https://viginiadot.s3-us-west-2.amazonaws.com/2019-11-15_19-29-39"
+	
+		var myArr = ""	
+		request.onreadystatechange = function () {
+			console.log("[+] Ready State"+ this.readyState)
+			if (this.readyState == 4){
+				myArr= JSON.parse(this.responseText);
+				console.log("Testing myArr: " + myArr);
+			}
+		}
+
+		request.open('GET',url, true);
+		request.send();
+		mycontent = request.responseText;
+		
 	</script>
 
 
 
 
 	   TEST!!!
-	   <canvas id="myChart" width="400" height="400"></canvas>
+	   <div style="width:75%;">
+		   <canvas id="myChart"></canvas>
+	   </div>
+
 	   <script type="text/javascript">
 		var ctx = document.getElementById('myChart');
 		var myChart = new Chart(ctx, {
-			type: 'bar',
+			type: 'line',
 		    	data: {
-        			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
         			datasets: [{
-            				label: '# of Votes',
-            				data: [12, 19, 3, 5, 2, 3],
-            				backgroundColor: [
-                			'rgba(255, 99, 132, 0.2)',
-                			'rgba(54, 162, 235, 0.2)',
-           		    		'rgba(255, 206, 86, 0.2)',
-                			'rgba(75, 192, 192, 0.2)',
-                			'rgba(153, 102, 255, 0.2)',
-                			'rgba(255, 159, 64, 0.2)'
-            				],
-            				borderColor: [
-			                'rgba(255, 99, 132, 1)',
-			                'rgba(54, 162, 235, 1)',
-			                'rgba(255, 206, 86, 1)',
-			                'rgba(75, 192, 192, 1)',
-			                'rgba(153, 102, 255, 1)',
-			                'rgba(255, 159, 64, 1)'
-				        ],
-            				borderWidth: 1
+            				label: 'Temperature and Humidity Sensor Values from R-Pi',
+            				data: [{x:0,y:3}, {x:1,y:12}, {x:2,y:3}, {x:3,y:5}, {x:4,y:2}, {x:5,y:3}],
+            				backgroundColor: 'rgb(54, 162, 235)',
+            				borderColor: 'rgb(255, 99, 132)',
+            				borderWidth: 1,
+					fill: true
 			        }]
     			},
-		    options: {
-		        scales: {
-		            yAxes: [{
-                		ticks: {
-		                    beginAtZero: true
-                		}
-            		    }]
-			  }
-    			}
+			options: {
+				responsive: true,
+				title: {
+					display: true,
+					text: 'Virginia Transportation Research Council, Smart Road Monitoring Project'
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Time in Seconds'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Value'
+						}
+					}]
+				}
+			}	
 		});
 	</script>
    </body>
