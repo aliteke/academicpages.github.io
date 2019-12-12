@@ -44,8 +44,10 @@
 		var x= ""; 
 		for(i=0; i< mykeys.length; i++)
 		{
-			searchKey="2019-11-14"
-			if(mykeys[i].textContent.startsWith( searchKey)) {
+			<!--searchKey="2019-11-14"-->
+			<!--if(mykeys[i].textContent.startsWith( searchKey )) -->
+			searchKey="2019-"
+			if( i>= (mykeys.length - 15) && mykeys[i].textContent.startsWith( searchKey )){
 				if(mykeys[i].nextSibling.nextSibling.nextSibling.textContent != "0"){
 					x += (url + mykeys[i].textContent) + "<br>"; 
 					cur_json_url = url + mykeys[i].textContent;
@@ -54,9 +56,9 @@
 					request.send();
 					console.log(request.responseText);
 					mycontent = JSON.parse(request.responseText);
-					timestamps.push(mycontent["timestamp"])
-					temps.push(mycontent["temperature"])
-					humids.push(mycontent["humidity"])
+					timestamps.push(mycontent["timestamp"]);
+					temps.push(mycontent["temperature"]);
+					humids.push(mycontent["humidity"]);
 				}
 			}
 		}
