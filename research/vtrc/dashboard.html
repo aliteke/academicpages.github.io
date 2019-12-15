@@ -24,8 +24,12 @@
    </head>
    <body>
 	<p id="demo"></p>
+	<br>
+	<br>
 	
-	<p>Start Date: <input type="text" id="startDatepicker"> End Date: <input type="text" id="endDatepicker"></p>
+	<p>Start Date: <input type="text" id="startDatepicker"> End Date: <input type="text" id="endDatepicker"> <button id="buttonPlotDates">Plot Data within Dates</button> </p>
+	<br>
+	<br>
 	
 	<script>
 		$( function() {
@@ -36,6 +40,19 @@
 				$( "#endDatepicker" ).datepicker();
 			}
 		)
+		<!--Listener for the PlotDates Button-->
+		document.getElementById('buttonPlotDates').addEventListener('click', function() {
+				var startDate = document.getElementById("startDatepicker").value
+				var endDate = document.getElementById("endDatepicker").value
+				if(startDate > endDate){
+					alert('Start Date should be before End Date!')
+					document.getElementById("startDatepicker").value = ""
+					document.getElementById("endDatepicker").value = ""
+				}else{
+					alert('You have chosen Start Date: '+ startDate + ", End Date: " + endDate)
+				}
+			});
+
   	</script>
 	
 	<script>
@@ -82,7 +99,7 @@
 			}
 		}
 		
-		msg = "[+] Search Key (date starts with): " + searchKey + "<br>[+] total Temps: " + temps.length + ", total timestamps: " + timestamps.length + ", total humidities: " + humids.length
+		msg = "[+] Displaying last " + temps.length + " sensor records in S3 Bucket. <br>[+] Search Key (date starts with): " + searchKey + "<br>[+] total Temps: " + temps.length + ", total timestamps: " + timestamps.length + ", total humidities: " + humids.length
 		document.getElementById("demo").innerHTML= msg
 		
 <!-- "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays"
