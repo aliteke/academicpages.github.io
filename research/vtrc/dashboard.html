@@ -58,6 +58,10 @@
 					document.getElementById("endDatepicker").value = ""
 				}else{
 					alert('You have chosen Start Date: '+ startDate + ", End Date: " + endDate)
+					window.myTemperatureChart.data.labels.push("test-date")
+					l = window.myTemperatureChart.data.datasets[0].data.length
+					window.myTemperatureChart.data.datasets[0].data.push(new Object({x:l+1, y: l*2}))
+					window.myTemperatureChart.update();
 				}
 			});
 
@@ -142,8 +146,7 @@
 			temps2.push(o);
 		}
 
-		var ctx = document.getElementById('myChartTemperature');
-		var myChart = new Chart(ctx, {
+		var configTemperatureChart = {
 				type: 'line',
 				data: {
 					labels: timestamps,
@@ -188,10 +191,12 @@
 						}]
 					}
 				}	
-				});
+		};
+		var ctx = document.getElementById('myChartTemperature').getContext('2d');
+		window.myTemperatureChart = new Chart(ctx, configTemperatureChart);
 
-		var ctx = document.getElementById('myChartHumidity');
-                var myChart = new Chart(ctx, {
+
+		var configHumidityChart ={
                                 type: 'line',
                                 data: {
                                         labels: timestamps,
@@ -235,8 +240,11 @@
                                                         }
                                                 }]
                                         }
-                                }       
-                                });
+                                }
+		};
+		var ctx = document.getElementById('myChartHumidity').getContext('2d');
+		window.myHumidityChart = new Chart(ctx, configHumidityChart);
+
 
 	</script>
    </body>
