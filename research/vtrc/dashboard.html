@@ -44,7 +44,14 @@
 		document.getElementById('buttonPlotDates').addEventListener('click', function() {
 				var startDate = document.getElementById("startDatepicker").value
 				var endDate = document.getElementById("endDatepicker").value
-				if(startDate > endDate){
+
+				if(startDate == "" && endDate == ""){
+					alert("Please choose a Start Date & End Date!!")
+				}else if(startDate== ""){
+					alert("Please choose a Start Date!")
+				}else if(endDate== ""){
+					alert("Please choose an End Date!")
+				}else if(startDate > endDate){
 					alert('Start Date should be before End Date!')
 					document.getElementById("startDatepicker").value = ""
 					document.getElementById("endDatepicker").value = ""
