@@ -52,6 +52,20 @@
         <br>
 
         <script>
+		// x is the start date, y is the end date picked by the user
+		// return: 4 arrays, Timestamps, Temperatures, Humidities, and Loads.
+		function retrieveDataForDates(x,y){
+			console.log("[+] Returning data starting from: "+x+", till "+y)
+			var obj = {
+				tss : ["2020","2021","2022","2023","2024"],
+				tps : [80,81,82,83,84],
+				hms : [60,61,62,63,64],
+				lds : [0,1,2,3,4]
+			};
+		
+			return obj;
+		}
+
 		var text, parser, xmlDoc;
 		var mycontent;
 		var timestamps=[];
@@ -187,10 +201,30 @@ msg = "[+] Displaying last " + temps.length + " sensor records in S3 Bucket. <br
 
 				else{<!--TODO: Need to update -->
                                         alert('You have chosen Start Date: '+ startDate + ", End Date: " + endDate)
-                                        window.myTemperatureChart.data.labels.push("test-date")
-                                        l = window.myTemperatureChart.data.datasets[0].data.length
-                                        window.myTemperatureChart.data.datasets[0].data.push(new Object({x: l+1, y: l*2}))
+                                        //window.myTemperatureChart.data.labels.push("test-date")
+                                        //l = window.myTemperatureChart.data.datasets[0].data.length
+                                        //window.myTemperatureChart.data.datasets[0].data.push(new Object({x: l+1, y: l*2}))
+					
+					/* Get the Temp, Humid, Load, Timestamp values falling within the chosen dates*/
+					dataObj = retrieveDataForDates(startDate, endDate);
+					console.log("[+] dataObj: " + dataObj.tps);
+					
+					/* Overwrite the Temperature Chart's labels->timestamps, and Temperature Values */
+					window.myTemperatureChart.data.labels = dataObj.tss;
+					window.myTemperatureChart.data.datasets[0].data = dataObj.tps
                                         window.myTemperatureChart.update();
+
+					/* Overwrite the Humidity Chart's labels->timestamps, and Humidty values*/
+                                        window.myHumidityChart.data.labels = dataObj.tss;
+                                        window.myHumidityChart.data.datasets[0].data = dataObj.hms
+                                        window.myHumidityChart.update();
+
+					/* Overwrite the Load Chart's labels->timestamps, and Load values */
+                                        window.myLoadsChart.data.labels = dataObj.tss;
+                                        window.myLoadsChart.data.datasets[0].data = dataObj.lds
+                                        window.myLoadsChart.update();
+
+
                                 }
                         });
 
