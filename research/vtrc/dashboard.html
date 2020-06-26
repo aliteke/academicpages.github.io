@@ -52,20 +52,6 @@
         <br>
 
         <script>
-		// x is the start date, y is the end date picked by the user
-		// return: 4 arrays, Timestamps, Temperatures, Humidities, and Loads.
-		function retrieveDataForDates(x,y){
-			console.log("[+] Returning data starting from: "+x+", till "+y)
-			var obj = {
-				tss : ["2020","2021","2022","2023","2024"],
-				tps : [80,81,82,83,84],
-				hms : [60,61,62,63,64],
-				lds : [0,1,2,3,4]
-			};
-		
-			return obj;
-		}
-
 		var text, parser, xmlDoc;
 		var mycontent;
 		var timestamps=[];
@@ -74,6 +60,72 @@
 		var loads=[];
 		var firstRecordDate;
 		var lastRecordDate;
+
+		/*
+		* convert the Key from S3 bucket, to a Date format compatible with Date-Picker
+		*/
+		function key_to_date(k){
+			k=k.textContent
+			return k.slice(5,7)+"/"+k.slice(8,10)+"/"+k.slice(0,4)
+		}
+	
+		/*
+		* Retrieve JSON Object corresponding to one key from S3 bucket
+		*/
+		function retrieve_JSON_from_S3(k){
+			cur_json_url = url + k.textContent;
+                        console.log("[+] Requesting URL: " + cur_json_url);
+                        request.open('GET', cur_json_url, false);
+                        request.send();
+			r = request.responseText;
+                        console.log("[+] Response Text: "+ r);
+
+			while(r.indexOf("None") != -1) 
+			{
+				r = r.replace("None", "0");
+			}
+		
+                        return JSON.parse(r);
+		}
+
+		/* 
+		*	x is the start date, y is the end date picked by the user
+		* 	return: 4 arrays, Timestamps, Temperatures, Humidities, and Loads.
+		*/
+		function retrieveDataForDates(x,y){
+			console.log("[+] Returning data starting from: "+x+", till "+y)
+			/* search through mykeys array and find the keys with date value falling between x and y */
+			var matching_keys=[]
+			for (i=0; i<mykeys.length; i++){
+				cd = key_to_date(mykeys[i]);
+				if (cd >= x && cd <= y ){
+					matching_keys.push(mykeys[i]);
+				}
+			}
+			console.log("[+] Matching number of keys: "+ matching_keys.length)
+			
+			timestamps.length=0;
+			temps.length=0;
+			humids.length=0;
+			loads.length=0;
+			for (i=0; i<matching_keys.length;i++){
+				json_object= retrieve_JSON_from_S3(matching_keys[i]);
+				timestamps.push(json_object["timestamp"]);
+				temps.push(json_object["temperature"]);
+				humids.push(json_object["humidity"]);
+				loads.push(json_object["load"]);
+			}
+
+			var obj = {
+				tss : timestamps,
+				tps : temps,
+				hms : humids,
+				lds : loads
+			};
+		
+			return obj;
+		}
+
 
 /*url = "https://viginiadot.s3-us-west-2.amazonaws.com/"*/
 		
