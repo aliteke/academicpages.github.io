@@ -52,50 +52,22 @@
         <br>
 
         <script>
-                $( function() {
-                                $( "#startDatepicker" ).datepicker();
-                        }
-                );
-                $( function() {
-                                $( "#endDatepicker" ).datepicker();
-                        }
-                )
-                <!--Listener for the PlotDates Button-->
-                document.getElementById('buttonPlotDates').addEventListener('click', function() {
-                                var startDate = document.getElementById("startDatepicker").value
-                                var endDate = document.getElementById("endDatepicker").value
+		var text, parser, xmlDoc;
+		var mycontent;
+		var timestamps=[];
+		var temps=[];
+		var humids=[];
+		var loads=[];
+		var firstRecordDate;
+		var lastRecordDate;
 
-                                if(startDate == "" && endDate == ""){
-                                        alert("Please choose a Start Date & End Date!!")
-                                }else if(startDate== ""){
-                                        alert("Please choose a Start Date!")
-                                }else if(endDate== ""){
-                                        alert("Please choose an End Date!")
-                                }else if(startDate > endDate){
-                                        alert('Start Date should be before End Date!')
-                                        document.getElementById("startDatepicker").value = ""
-                                        document.getElementById("endDatepicker").value = ""
-                                }else{<!--TODO: Need to update -->
-                                        alert('You have chosen Start Date: '+ startDate + ", End Date: " + endDate)
-                                        window.myTemperatureChart.data.labels.push("test-date")
-                                        l = window.myTemperatureChart.data.datasets[0].data.length
-                                        window.myTemperatureChart.data.datasets[0].data.push(new Object({x: l+1, y: l*2}))
-                                        window.myTemperatureChart.update();
-                                }
-                        });
-
-                var text, parser, xmlDoc;
-                var mycontent;
-                var timestamps=[];
-                var temps=[];
-                var humids=[];
-                var loads=[];
-
-<!--url = "https://viginiadot.s3-us-west-2.amazonaws.com/"-->
-                url = "https://bucketvtrcproject.s3-us-east-2.amazonaws.com/"
-                request = new XMLHttpRequest();
-                request.open('GET', url, false);
-                request.responseType = "text/xml";
+/*url = "https://viginiadot.s3-us-west-2.amazonaws.com/"*/
+		
+		url = "https://bucketvtrcproject.s3-us-east-2.amazonaws.com/"
+		list_type_arg = "?list-type=2"
+		request = new XMLHttpRequest();
+		request.open('GET', url + list_type_arg, false);
+		request.responseType = "text/xml";
                 
                 request.send();
                 mycontent = request.responseText;
@@ -103,19 +75,51 @@
                 parser = new DOMParser();
                 xmlDoc = parser.parseFromString(mycontent,"text/xml");
 
-                mykeys = xmlDoc.getElementsByTagName("Key")
+		// Converting returned HTMLCollection to regular Array, containing all keys.
+                mykeys = Array.prototype.slice.call( xmlDoc.getElementsByTagName("Key") )
+		console.log("[+] Length of First set of keys: "+mykeys.length)
+
+		var iteration =1;
+		var nextToken;
+		// now check if the response was truncated.
+		// If it is truncated, we need to use ContinuationToken and get the rest of the objects in the bucket.
+		isTruncated = xmlDoc.getElementsByTagName("IsTruncated").item(0).innerHTML 
+		while (isTruncated == "true")
+		{
+			nextToken = xmlDoc.getElementsByTagName("NextContinuationToken").item(0).innerHTML;
+			console.log("[+] Iteration: "+iteration+", nextToken: "+nextToken);
+			nextToken = encodeURIComponent(nextToken);
+			console.log("[+] encodedNextToken: "+nextToken);
+			request= new XMLHttpRequest();
+			request.open('GET', url+list_type_arg+"&continuation-token="+nextToken, false);	// false here means wait syncronously to answer from the server
+			request.responseType = "text/xml";
+			request.send();
+			mycontent = request.responseText;
+			parser = new DOMParser();
+			xmlDoc = parser.parseFromString(mycontent,"text/xml");
+			// Convert the HTMLCollection list to Array, then add the keys in this current page to all keys in "mykeys"
+			mykeys = mykeys.concat( Array.prototype.slice.call( xmlDoc.getElementsByTagName("Key") ) )
+			
+			console.log("[+] number of IsTruncated Elements: " + xmlDoc.getElementsByTagName("IsTruncated").length)
+			console.log("[+] mykeys.length: " +mykeys.length)
+			isTruncated = xmlDoc.getElementsByTagName("IsTruncated").item(0).innerHTML
+			iteration+=1
+		}
                 
-                console.log("Length of keys: " + mykeys.length)
+                console.log("[+] Length of keys: " + mykeys.length)
                 
+		firstRecordDate=mykeys[0].textContent
+		lastRecordDate=mykeys[mykeys.length-1].textContent
+
                 var x= ""; 
                 for(i=0; i< mykeys.length; i++)
                 {
-                        <!--searchKey="2019-11-14"-->
-                        <!--if(mykeys[i].textContent.startsWith( searchKey )) -->
+                        // searchKey="2019-11-14"
+                        // if(mykeys[i].textContent.startsWith( searchKey ))
                         searchKey="20"
                         if( i>= (mykeys.length - 15) && mykeys[i].textContent.startsWith( searchKey )){
-                                if(mykeys[i].nextSibling.nextSibling.nextSibling.textContent != "0"){
-                                        x += (url + mykeys[i].textContent) + "<br>"; 
+				if(mykeys[i].nextSibling.nextSibling.nextSibling.textContent != "0"){	// <Size> 0 <Size>
+                                        //x += (url + mykeys[i].textContent) + "<br>"; 
                                         cur_json_url = url + mykeys[i].textContent;
                                         console.log(cur_json_url);
                                         request.open('GET', cur_json_url, false);
@@ -130,10 +134,69 @@
                         }
                 }
                 
-                msg = "[+] Displaying last " + temps.length + " sensor records in S3 Bucket. <br>[+] Search Key (date starts with): " + searchKey + "<br>[+] total Temps: " + temps.length + ", total timestamps: " + timestamps.length + ", total humidities: " + humids.length + ", total loads: " + loads.length
+msg = "[+] Displaying last " + temps.length + " sensor records in S3 Bucket. <br>[+] Search Key (date starts with): " + searchKey + "<br>[+] total Temps: " + temps.length + ", total timestamps: " + timestamps.length + ", total humidities: " + humids.length + ", total loads: " + loads.length + "<br>[+] Initial Record Date: " + firstRecordDate + ", Last Record Date: " + lastRecordDate + "<br>[+] Total Number of Records in Bucket: " + mykeys.length;
+
                 document.getElementById("demo").innerHTML= msg
+		
+		var startDate, endDate;
+		var frDate = firstRecordDate.slice(5,7)+"/"+firstRecordDate.slice(8,10)+"/"+firstRecordDate.slice(0,4)
+		var lrDate = lastRecordDate.slice(5,7)+"/"+lastRecordDate.slice(8,10)+"/"+lastRecordDate.slice(0,4)
+                /********DATE PICKERS******/
+		$( function() {
+                                $( "#startDatepicker" ).datepicker();
+                        }
+                );
+                $( function() {
+                                $( "#endDatepicker" ).datepicker();
+                        }
+                )
+                <!--Listener for the PlotDates Button-->
+                document.getElementById('buttonPlotDates').addEventListener('click', function() {
+                                startDate = document.getElementById("startDatepicker").value
+                                endDate = document.getElementById("endDatepicker").value
+
+                                if(startDate == "" && endDate == ""){
+                                        alert("Please choose a Start Date & End Date!!")
+                                }else if(startDate== ""){
+                                        alert("Please choose a Start Date!")
+                                }else if(endDate== ""){
+                                        alert("Please choose an End Date!")
+                                }else if(startDate > endDate){
+                                        alert('Start Date should be before End Date!')
+                                        document.getElementById("startDatepicker").value = ""
+                                        document.getElementById("endDatepicker").value = ""
+				}else if(startDate < frDate){
+					alert('Start Date is too early! Start-End Dates should be within '+ frDate + "-" + lrDate)
+                                        document.getElementById("startDatepicker").value = ""
+                                        document.getElementById("endDatepicker").value = ""
+				
+				}else if(startDate > lrDate){
+					alert('Start Date is too far! Start-End Dates should be within '+ frDate + "-" + lrDate)
+                                        document.getElementById("startDatepicker").value = ""
+                                        document.getElementById("endDatepicker").value = ""
+
+				}else if(endDate > lrDate){
+					alert('End Date is too far! Start-End Dates should be within '+ frDate + "-" + lrDate)
+                                        document.getElementById("startDatepicker").value = ""
+                                        document.getElementById("endDatepicker").value = ""
+				} else if(endDate < frDate){
+					alert('End Date is too early! Start-End Dates should be within '+ frDate + "-" + lrDate)
+                                        document.getElementById("startDatepicker").value = ""
+                                        document.getElementById("endDatepicker").value = ""
+				}
+
+				else{<!--TODO: Need to update -->
+                                        alert('You have chosen Start Date: '+ startDate + ", End Date: " + endDate)
+                                        window.myTemperatureChart.data.labels.push("test-date")
+                                        l = window.myTemperatureChart.data.datasets[0].data.length
+                                        window.myTemperatureChart.data.datasets[0].data.push(new Object({x: l+1, y: l*2}))
+                                        window.myTemperatureChart.update();
+                                }
+                        });
+
+
                 
-<!-- COMMENTED-OUT "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays"
+/* COMMENTED-OUT "Read the JSON from the S3 Bucket and put the Timestamp, Humidity and Temperature Values in Arrays"
                 request = new XMLHttpRequest();
                 url = "https://viginiadot.s3-us-west-2.amazonaws.com/2019-11-15_19-29-39"
         
@@ -149,7 +212,7 @@
                 request.open('GET', url, true);
                 request.send();
                 mycontent = request.responseText;
--->
+*/
         </script>
 
         <div style="width:75%; margin: auto;">
