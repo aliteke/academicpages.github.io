@@ -50,7 +50,7 @@
         <p>Start Date: <input type="text" id="startDatepicker"> End Date: <input type="text" id="endDatepicker"> <button id="buttonPlotDates">Plot Data within Dates</button> </p>
         <br>
         <br>
-        <p>Download Choosen Records as CSV <input type="image" src="download.png" alt="Download_as_CSV" width="50" height="50"> </p>
+        <p>Download Choosen Records as a CSV file: <input type="image" src="download.png" alt="Download_as_CSV" width="50" height="50" id="csv_downloader"> </p>
 	
 
         <script>
@@ -222,6 +222,9 @@
                                 $( "#endDatepicker" ).datepicker();
                         }
                 )
+		/*  Listener for CSV download button */
+		document.getElementById('csv_downloader').addEventListener('click', function(){ console.log("[+] Clicked download CSV image/button")} );
+
                 <!--Listener for the PlotDates Button-->
                 document.getElementById('buttonPlotDates').addEventListener('click', function() {
                                 startDate = document.getElementById("startDatepicker").value
