@@ -349,7 +349,7 @@
                                         labels: timestamps,
                                         datasets: [{
 						<!--label: 'Temperature Sensor Values',-->
-						label: 'Strain Sensor Value',
+						label: 'Sensor#1',
                                                 data: temps,
                                                 backgroundColor: 'rgb(54, 162, 235)',
                                                 borderColor: 'rgb(255, 99, 132)',
@@ -400,7 +400,8 @@
                                 data: {
                                         labels: timestamps,
                                         datasets: [{
-                                                label: 'Humidity Sensor Values',
+						<!--label: 'Humidity Sensor Values',-->
+						label: 'Sensor#2'
                                                 data: humids,
                                                 backgroundColor: 'rgb(201, 203, 207)',
                                                 borderColor: 'rgb(75, 192, 192)',
@@ -435,7 +436,8 @@
                                                         display: true,
                                                         scaleLabel: {
                                                                 display: true,
-                                                                labelString: 'Value (%)'
+								<!--labelString: 'Value (%)'-->
+								labelString: 'Scaled Value'
                                                         }
                                                 }]
                                         }
@@ -449,7 +451,8 @@
                                 data: {
                                         labels: timestamps,
                                         datasets: [{
-                                                label: 'Load Sensor Values',
+						<!--label: 'Load Sensor Values',-->
+						label: 'Sensor#2'
                                                 data: loads,
                                                 backgroundColor: 'rgb(101, 103, 107)',
                                                 borderColor: 'rgb(175, 92, 92)',
@@ -484,7 +487,8 @@
                                                         display: true,
                                                         scaleLabel: {
                                                                 display: true,
-                                                                labelString: 'Value (grams)'
+								<!--labelString: 'Value (grams)'-->
+								labelString: 'ScaledValue'
                                                         }
                                                 }]
                                         }
